@@ -29,6 +29,6 @@ export const FOOTER_LINKS: FooterLink[] = [
     name: 'Resume',
     hoverText: 'Download Profile',
     icon: 'icons/file.svg',
-    url: './Krishna_R_Resume.pdf',
+    url: './Raj_Kumar_Resume.pdf',
   }
 ];

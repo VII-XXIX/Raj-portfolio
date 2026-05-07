@@ -3,7 +3,7 @@ Hello there! I'm Rajkumar R, Computer Science Graduate, Cloud & DevOps enthusias
 
 This is the interactive 3D version of my personal portfolio, built to showcase my journey, hackathon projects, and technical skills.
 
-Checkout the live version at [devkrishnarv2-0.vercel.app](https://devkrishna-v2.vercel.app/)
+Checkout the live version at (https://raj-portfolio-v1.vercel.app)
 
 ## 🚀 Tech Stack
 

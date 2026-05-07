@@ -11,35 +11,37 @@ import { WorkTimelinePoint } from "@types";
 
 const reusableLeft = new THREE.Vector3(-0.5, 0, -0.1);
 const reusableRight = new THREE.Vector3(0.5, 0, -0.1);
+const mobileOffset = new THREE.Vector3(0, 0, -0.1);
 
 const TimelinePoint = ({ point, diff }: { point: WorkTimelinePoint, diff: number }) => {
   const isMobile = useIsMobile();
   const getPoint = useMemo(() => {
+    if (isMobile) return mobileOffset;
     switch (point.position) {
       case 'left': return reusableLeft;
       case 'right': return reusableRight;
       default: return new THREE.Vector3();
     }
-  }, [point.position]);
+  }, [point.position, isMobile]);
 
-  const textAlign = point.position === 'left' ? 'right' : 'left';
+  const textAlign = isMobile ? 'center' : (point.position === 'left' ? 'right' : 'left');
 
   const textProps: Partial<TextProps> = useMemo(() => ({
     font: "./Vercetti-Regular.woff",
     color: "white",
-    anchorX: textAlign,
+    anchorX: isMobile ? 'center' : textAlign,
     fillOpacity: 2 - 2 * diff,
-  }), [textAlign, diff]);
+  }), [textAlign, diff, isMobile]);
 
   const titleProps = useMemo(() => ({
     ...textProps,
     font: "./soria-font.ttf",
-    fontSize: isMobile ? 0.35 : 0.45,
-    maxWidth: isMobile ? 2.2 : 3,
-  }), [textProps]);
+    fontSize: isMobile ? 0.3 : 0.45,
+    maxWidth: isMobile ? 1.6 : 3,
+  }), [textProps, isMobile]);
 
   return (
-    <group position={point.point} scale={isMobile ? 0.5 : 0.8}>
+    <group position={point.point} scale={isMobile ? 0.4 : 0.8}>
       <Box args={[0.2, 0.2, 0.2]} position={[0, 0, -0.1]} scale={[1 - diff, 1 - diff, 1 - diff]}>
         <meshBasicMaterial color="white" wireframe />
         <Edges color="white" lineWidth={1.5} />
@@ -80,7 +82,7 @@ const Timeline = ({ progress }: { progress: number }) => {
   useFrame((_, delta) => {
     if (isActive) {
       const position = curve.getPoint(progress);
-      camera.position.x = THREE.MathUtils.damp(camera.position.x, (isMobile ? -1 : -2) + position.x, 4, delta);
+      camera.position.x = THREE.MathUtils.damp(camera.position.x, (isMobile ? 0 : -2) + position.x, 4, delta);
       camera.position.y = THREE.MathUtils.damp(camera.position.y, -39 + position.z, 4, delta);
       camera.position.z = THREE.MathUtils.damp(camera.position.z, 13 - position.y, 4, delta);
     }
